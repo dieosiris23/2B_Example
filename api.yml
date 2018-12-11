@@ -1,0 +1,336 @@
+#Test with: http://editor.swagger.io/
+
+swagger: '2.0'
+info:
+  version: 1.0.0
+  title: Microservice for Examples
+  description: Ruby + MySQL
+  license:
+    name: Software Architecture 2018-I
+host: 35.196.170.89:4001
+basePath: /
+schemes:
+  - http
+consumes:
+  - application/json
+produces:
+  - application/json
+paths:
+  /examples:
+    post:
+      summary: Creates a new example
+      operationId: createExample
+      parameters:
+        - name: example
+          in: body
+          required: true
+          description: Example Object
+          schema:
+            $ref: '#/definitions/ExampleInput'
+      responses:
+        '201':
+          description: Created
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/ErrorModel'
+        '500':
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/ErrorModel'
+    get:
+      summary: Returns all examples
+      operationId: getAllExamples
+      responses:
+        '200':
+          description: Ok
+          schema:
+            $ref: '#/definitions/ExamplesList'
+        '406':
+          description: Not Acceptable (Invalid Params)
+          schema:
+            $ref: '#/definitions/ErrorModel'
+        '500':
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/ErrorModel'
+
+  /examples/{id}:
+    get:
+      summary: Returns a example with the given id
+      operationId: getExampleById
+      parameters:
+        - name: id
+          in: path
+          description: The id of the example to be returned
+          required: true
+          type: integer
+      responses:
+        '200':
+          description: Ok
+          schema:
+            $ref: '#/definitions/Example'
+        '404':
+          description: Not Found
+          schema:
+            $ref: '#/definitions/ErrorModel'
+        '406':
+            description: Not Acceptable (Invalid Params)
+            schema:
+              $ref: '#/definitions/ErrorModel'
+        '500':
+          description: unexpected error
+          schema:
+            $ref: '#/definitions/ErrorModel'
+
+    put:
+      summary: Updates a example with the given id
+      operationId: updateExample
+      parameters:
+        - name: id
+          in: path
+          description: The id of the example to be updated
+          required: true
+          type: integer
+        - name: example
+          in: body
+          required: true
+          description: Example Object
+          schema:
+            $ref: '#/definitions/ExampleInput'
+      responses:
+        '204':
+          description: No Content
+        '404':
+          description: Not Found
+          schema:
+            $ref: '#/definitions/ErrorModel'
+        '406':
+            description: Not Acceptable (Invalid Params)
+            schema:
+              $ref: '#/definitions/ErrorModel'
+        '500':
+          description: unexpected error
+          schema:
+            $ref: '#/definitions/ErrorModel'
+
+    delete:
+      summary: Deletes a example with the given id
+      operationId: deleteExample
+      parameters:
+        - name: id
+          in: path
+          description: The id of the example to be deleted
+          required: true
+          type: integer
+      responses:
+        '200':
+          description: Ok
+        '404':
+          description: Not Found
+          schema:
+            $ref: '#/definitions/ErrorModel'
+        '406':
+            description: Not Acceptable (Invalid Params)
+            schema:
+              $ref: '#/definitions/ErrorModel'
+        '500':
+          description: unexpected error
+          schema:
+            $ref: '#/definitions/ErrorModel'
+
+  /units:
+    post:
+      summary: Creates a new unit
+      operationId: createUnit
+      parameters:
+        - name: unit
+          in: body
+          required: true
+          description: Unit Object
+          schema:
+            $ref: '#/definitions/UnitInput'
+      responses:
+        '201':
+          description: Created
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/ErrorModel'
+        '500':
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/ErrorModel'
+    get:
+      summary: Returns all units
+      operationId: getAllUnits
+      responses:
+        '200':
+          description: Ok
+          schema:
+            $ref: '#/definitions/UnitsList'
+        '406':
+          description: Not Acceptable (Invalid Params)
+          schema:
+            $ref: '#/definitions/ErrorModel'
+        '500':
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/ErrorModel'
+
+  /units/{id}:
+    get:
+      summary: Returns a unit with the given id
+      operationId: getUnitById
+      parameters:
+        - name: id
+          in: path
+          description: The id of the unit to be returned
+          required: true
+          type: integer
+      responses:
+        '200':
+          description: Ok
+          schema:
+            $ref: '#/definitions/Unit'
+        '404':
+          description: Not Found
+          schema:
+            $ref: '#/definitions/ErrorModel'
+        '406':
+            description: Not Acceptable (Invalid Params)
+            schema:
+              $ref: '#/definitions/ErrorModel'
+        '500':
+          description: unexpected error
+          schema:
+            $ref: '#/definitions/ErrorModel'
+
+    put:
+      summary: Updates a unit with the given id
+      operationId: updateUnit
+      parameters:
+        - name: id
+          in: path
+          description: The id of the unit to be updated
+          required: true
+          type: integer
+        - name: unit
+          in: body
+          required: true
+          description: Unit Object
+          schema:
+            $ref: '#/definitions/UnitInput'
+      responses:
+        '204':
+          description: No Content
+        '404':
+          description: Not Found
+          schema:
+            $ref: '#/definitions/ErrorModel'
+        '406':
+            description: Not Acceptable (Invalid Params)
+            schema:
+              $ref: '#/definitions/ErrorModel'
+        '500':
+          description: unexpected error
+          schema:
+            $ref: '#/definitions/ErrorModel'
+
+    delete:
+      summary: Deletes a unit with the given id
+      operationId: deleteUnit
+      parameters:
+        - name: id
+          in: path
+          description: The id of the unit to be deleted
+          required: true
+          type: integer
+      responses:
+        '200':
+          description: Ok
+        '404':
+          description: Not Found
+          schema:
+            $ref: '#/definitions/ErrorModel'
+        '406':
+            description: Not Acceptable (Invalid Params)
+            schema:
+              $ref: '#/definitions/ErrorModel'
+        '500':
+          description: unexpected error
+          schema:
+            $ref: '#/definitions/ErrorModel'
+
+definitions:
+
+  # Students
+  Example:
+    type: object
+    properties:
+      id:
+        type: integer
+      unit_id:
+        type: integer
+      contenido:
+        type: string
+
+  ExampleInput:
+    type: object
+    properties:
+      unit_id:
+        type: integer
+      contenido:
+        type: string
+  ExamplesList:
+    type: object
+    required:
+      - total
+      - list
+    properties:
+      total:
+        type: number
+      list:
+        type: array
+        items:
+          $ref: '#/definitions/Example'
+
+  Unit:
+    type: object
+    properties:
+      id:
+        type: integer
+      nombre:
+        type: string
+
+  UnitInput:
+    type: object
+    properties:
+      nombre:
+        type: string
+  UnitsList:
+    type: object
+    required:
+      - total
+      - list
+    properties:
+      total:
+        type: number
+      list:
+        type: array
+        items:
+          $ref: '#/definitions/Unit'
+
+# Errors
+  ErrorModel:
+    type: object
+    required:
+      - message
+      - code
+    properties:
+      message:
+        type: string
+      code:
+        type: number
+      description:
+        type: object
